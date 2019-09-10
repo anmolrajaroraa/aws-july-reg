@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home Page</title>
+    <style>
+        img{
+            width: 1000px;
+        }
+    </style>
+</head>
+<body>
+    <div align='center'>
+        <h1>Hello Cloud !!</h1>
+        <!-- <button onclick="document.querySelector('h1').innerHTML='Hello Anmol Arora!!'">Click me !</button> -->
+        <button onclick="getData()">Click Me !</button>
+        <br><br>
+        <img src="https://anmols-bucket.s3.ap-south-1.amazonaws.com/fudo-jahic-HwGW5odD9CI-unsplash.jpg" alt="Random image">
+    </div>
+    <script>
+        function getData(){
+            var xhttp = new XMLHttpRequest();
+            xhttp.open('POST', 'http://cricapi.com/api/matches/', true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(JSON.stringify({
+                "apikey": ""
+            }));
+            xhttp.onreadystatechange = function(){
+                if(this.status == 200 && this.readyState == 4){
+                    json = JSON.parse(this.responseText);
+                    team1 = json.matches[0]['team-1'];
+                    team2 = json.matches[0]['team-2'];
+                    date = json.matches[0]['date'];
+                    console.log(`Next match: ${team1} vs ${team2}, ${date}`);
+                    document.querySelector('h1').innerHTML = `Next match: ${team1} vs ${team2}, ${date}`;
+                    console.log(this.responseText);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
